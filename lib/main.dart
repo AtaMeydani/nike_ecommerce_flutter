@@ -11,7 +11,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const defaultTextStyle = TextStyle(
-      fontFamily: 'Iran',
+      fontFamily: 'IRAN',
       color: LightThemeColors.primaryTextColor,
     );
     return MaterialApp(
