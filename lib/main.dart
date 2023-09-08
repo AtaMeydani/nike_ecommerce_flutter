@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/theme.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const defaultTextStyle = TextStyle(
+      fontFamily: 'Iran',
+      color: LightThemeColors.primaryTextColor,
+    );
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: const ColorScheme.light(
+          primary: LightThemeColors.primaryColor,
+          secondary: LightThemeColors.secondaryColor,
+          onSecondary: Colors.white,
+        ),
+        textTheme: TextTheme(
+          bodyMedium: defaultTextStyle,
+          titleLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold),
+          bodySmall: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
+        ),
+      ),
+      home: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          body: Center(
+            child: Text('Hello World!'),
+          ),
+        ),
+      ),
+    );
+  }
+}
