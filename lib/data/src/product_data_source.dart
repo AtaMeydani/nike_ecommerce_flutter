@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:nike_ecommerce_flutter/common/exceptions.dart';
+import 'package:nike_ecommerce_flutter/data/common/http_response_validator.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
 
 abstract class IProductDataSource {
@@ -7,10 +7,10 @@ abstract class IProductDataSource {
   Future<List<ProductEntity>> search(String searchTerm);
 }
 
-class ProductRemoteDataSource implements IProductDataSource {
+class ProductRemoteDataSource with HttpResponseValidator implements IProductDataSource {
   final Dio httpClient;
 
-  ProductRemoteDataSource({required this.httpClient});
+  const ProductRemoteDataSource({required this.httpClient});
 
   @override
   Future<List<ProductEntity>> getAll(int sort) async {
@@ -24,11 +24,5 @@ class ProductRemoteDataSource implements IProductDataSource {
     final response = await httpClient.get('product/list?search?q=$searchTerm');
     validateResponse(response);
     return (response.data as List).map((json) => ProductEntity.fromJson(json)).toList();
-  }
-
-  void validateResponse(Response response) {
-    if (response.statusCode != 200) {
-      throw AppException();
-    }
   }
 }
