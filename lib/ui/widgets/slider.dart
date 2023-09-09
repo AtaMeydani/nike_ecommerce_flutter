@@ -28,7 +28,7 @@ class BannerSlider extends StatelessWidget {
             physics: defaultScrollPhysics,
             itemCount: banners.length,
             itemBuilder: (context, index) {
-              return _Slide(bannerEntity: banners[index]);
+              return _Banner(bannerEntity: banners[index]);
             },
           ),
           Positioned(
@@ -59,16 +59,16 @@ class BannerSlider extends StatelessWidget {
   }
 }
 
-class _Slide extends StatelessWidget {
+class _Banner extends StatelessWidget {
   final BannerEntity bannerEntity;
-  const _Slide({
+  const _Banner({
     required this.bannerEntity,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: defaultHorizontalPadding),
       child: ImageLoadingService(
         imageUrl: bannerEntity.image,
         borderRadius: BorderRadius.circular(12),

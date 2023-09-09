@@ -16,6 +16,7 @@ class ImageLoadingService extends StatelessWidget {
       // Clip Rounded Rectangle
       borderRadius: borderRadius,
       child: CachedNetworkImage(
+        width: double.infinity,
         imageUrl: imageUrl,
         fit: BoxFit.cover,
       ),

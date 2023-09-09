@@ -23,6 +23,8 @@ class MainApp extends StatelessWidget {
           onSecondary: Colors.white,
         ),
         textTheme: TextTheme(
+          titleMedium: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
+          labelLarge: defaultTextStyle,
           bodyMedium: defaultTextStyle,
           titleLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold),
           bodySmall: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
