@@ -2,8 +2,8 @@ import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/data/src/product_data_source.dart';
 
 abstract class IProductRepository {
-  Future<List<ProductEntity>> getAll(int sort);
-  Future<List<ProductEntity>> search(String searchTerm);
+  Future<List<ProductEntity>> getAll({required int sort});
+  Future<List<ProductEntity>> search({required String searchTerm});
 }
 
 class ProductRepository implements IProductRepository {
@@ -12,10 +12,8 @@ class ProductRepository implements IProductRepository {
   const ProductRepository({required this.remoteDataSource});
 
   @override
-  Future<List<ProductEntity>> getAll(int sort) => remoteDataSource.getAll(sort);
+  Future<List<ProductEntity>> getAll({required int sort}) => remoteDataSource.getAll(sort: sort);
 
   @override
-  Future<List<ProductEntity>> search(String searchTerm) => remoteDataSource.search(searchTerm);
+  Future<List<ProductEntity>> search({required String searchTerm}) => remoteDataSource.search(searchTerm: searchTerm);
 }
-
-// final productRepository = ProductRepository(remoteDataSource: ProductRemoteDataSource(httpClient: httpClient));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
+import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 
 void main() {
   runApp(const MainApp());
@@ -29,11 +30,7 @@ class MainApp extends StatelessWidget {
       ),
       home: Directionality(
         textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: Center(
-            child: Text('Hello World!'),
-          ),
-        ),
+        child: HomeScreen(),
       ),
     );
   }
