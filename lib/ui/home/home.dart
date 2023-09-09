@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
@@ -9,7 +8,7 @@ import 'package:nike_ecommerce_flutter/data/repo/product_repository.dart';
 import 'package:nike_ecommerce_flutter/data/src/banner_data_source.dart';
 import 'package:nike_ecommerce_flutter/data/src/product_data_source.dart';
 import 'package:nike_ecommerce_flutter/ui/home/bloc/home_bloc.dart';
-import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
+import 'package:nike_ecommerce_flutter/ui/product/product.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 
 final productRepository = ProductRepository(remoteDataSource: ProductRemoteDataSource(httpClient: httpClient));
@@ -32,6 +31,7 @@ class HomeScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is HomeSuccessState) {
                 return ListView(
+                  physics: defaultScrollPhysics,
                   padding: const EdgeInsets.fromLTRB(0, 12, 0, 100),
                   children: [
                     SizedBox(
@@ -132,69 +132,11 @@ class _HorizontalProductList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return _Product(productEntity: products[index]);
+          return ProductItem(
+            productEntity: products[index],
+            borderRadius: BorderRadius.circular(12),
+          );
         },
-      ),
-    );
-  }
-}
-
-class _Product extends StatelessWidget {
-  final ProductEntity productEntity;
-  const _Product({required this.productEntity});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      constraints: const BoxConstraints.expand(width: 180),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                ImageLoadingService(
-                  imageUrl: productEntity.image,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 32,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      CupertinoIcons.heart,
-                      size: 20,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              productEntity.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Text(
-            productEntity.previousPrice.withPriceLabel,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  decoration: TextDecoration.lineThrough,
-                ),
-          ),
-          Text(
-            productEntity.price.withPriceLabel,
-          ),
-        ],
       ),
     );
   }

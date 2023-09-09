@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           titleMedium: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
-          labelLarge: defaultTextStyle,
+          labelLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
           bodyMedium: defaultTextStyle,
           titleLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold),
           bodySmall: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
