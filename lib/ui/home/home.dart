@@ -9,6 +9,7 @@ import 'package:nike_ecommerce_flutter/data/src/banner_data_source.dart';
 import 'package:nike_ecommerce_flutter/data/src/product_data_source.dart';
 import 'package:nike_ecommerce_flutter/ui/home/bloc/home_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/product/product.dart';
+import 'package:nike_ecommerce_flutter/ui/widgets/error.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 
 final productRepository = ProductRepository(remoteDataSource: ProductRemoteDataSource(httpClient: httpClient));
@@ -63,19 +64,12 @@ class HomeScreen extends StatelessWidget {
               } else if (state is HomeLoadingState) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is HomeErrorState) {
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(state.exception.message),
-                    ElevatedButton(
-                      onPressed: () {
-                        BlocProvider.of<HomeBloc>(context).add(HomeRefreshEvent());
-                      },
-                      child: const Text('Refresh'),
-                    ),
-                  ],
-                ));
+                return AppErrorWidget(
+                  appException: state.exception,
+                  onPressed: () {
+                    BlocProvider.of<HomeBloc>(context).add(HomeRefreshEvent());
+                  },
+                );
               } else {
                 throw Exception('state is not supported');
               }

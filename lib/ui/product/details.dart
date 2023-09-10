@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
+import 'package:nike_ecommerce_flutter/ui/product/comment/comment_list.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -70,6 +71,9 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                     const Text(
                       'این کتون شدیدا برای دویدن و راه رفتن مناسب است و تقریبا هیچ فشار مخربی رو نمیذارد به پا و زانوان شما انتقال داده شود',
+                      style: TextStyle(
+                        height: 1.4,
+                      ),
                     ),
                     const SizedBox(
                       height: 24,
@@ -91,6 +95,7 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
+            CommentList(productId: productEntity.id)
           ],
         ),
       ),

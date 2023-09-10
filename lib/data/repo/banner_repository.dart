@@ -12,7 +12,5 @@ class BannerRepository implements IBannerRepository {
   const BannerRepository({required this.remoteDataSource});
 
   @override
-  Future<List<BannerEntity>> getAll() async {
-    return remoteDataSource.getAll();
-  }
+  Future<List<BannerEntity>> getAll() => remoteDataSource.getAll();
 }

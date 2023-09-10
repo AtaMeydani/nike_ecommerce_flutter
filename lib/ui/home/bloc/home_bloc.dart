@@ -19,6 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }) : super(HomeLoadingState()) {
     on<HomeEvent>((event, emit) async {
       if (event is HomeStartedEvent || event is HomeRefreshEvent) {
+        emit(HomeLoadingState());
         try {
           final List<BannerEntity> banners = await bannerRepository.getAll();
           final List<ProductEntity> latestProducts = await productRepository.getAll(sort: ProductSort.latest);
