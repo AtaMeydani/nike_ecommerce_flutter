@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/register.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/text_field.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final TextEditingController usernameController = TextEditingController(text: 'test@gmail.com');
+  final TextEditingController passwordController = TextEditingController(text: '123456');
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +43,25 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const EmailTextField(),
+            EmailTextField(
+              controller: usernameController,
+            ),
             const SizedBox(
               height: 16,
             ),
-            const PasswordTextField(),
+            PasswordTextField(
+              controller: passwordController,
+            ),
             const SizedBox(
               height: 16,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                authRepository.login(
+                  username: usernameController.text,
+                  password: passwordController.text,
+                );
+              },
               child: const Text(
                 'ورود',
               ),
@@ -62,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const RegisterScreen();
+                      return RegisterScreen();
                     },
                   ),
                 );

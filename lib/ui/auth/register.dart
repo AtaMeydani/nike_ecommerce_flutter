@@ -3,7 +3,10 @@ import 'package:nike_ecommerce_flutter/ui/auth/login.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/text_field.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  final TextEditingController usernameController = TextEditingController(text: 'test@gmail.com');
+  final TextEditingController passwordController = TextEditingController(text: '123456');
+
+  RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +43,15 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const EmailTextField(),
+            EmailTextField(
+              controller: usernameController,
+            ),
             const SizedBox(
               height: 16,
             ),
-            const PasswordTextField(),
+            PasswordTextField(
+              controller: passwordController,
+            ),
             const SizedBox(
               height: 16,
             ),
@@ -62,7 +69,7 @@ class RegisterScreen extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const LoginScreen();
+                      return LoginScreen();
                     },
                   ),
                 );
