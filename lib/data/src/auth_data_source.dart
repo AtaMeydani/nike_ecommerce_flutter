@@ -45,9 +45,20 @@ class AuthRemoteDataSource with HttpResponseValidator implements IAuthDataSource
   }
 
   @override
-  Future<AuthInfo> refreshToken({required String refreshToken}) {
-    // TODO: implement refreshToken
-    throw UnimplementedError();
+  Future<AuthInfo> refreshToken({required String refreshToken}) async {
+    final Map<String, dynamic> headers = {
+      'grant_type': 'refresh_token',
+      'client_id': 2,
+      'client_secret': Constants.clientSecret,
+      'refresh_token': refreshToken,
+    };
+    final response = await httpClient.post('auth/token', data: headers);
+    validateResponse(response);
+
+    return AuthInfo(
+      accessToken: response.data['access_token'],
+      refreshToken: response.data['refresh_token'],
+    );
   }
 
   @override
