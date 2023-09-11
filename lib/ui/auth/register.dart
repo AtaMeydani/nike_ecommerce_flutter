@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nike_ecommerce_flutter/ui/auth/register.dart';
+import 'package:nike_ecommerce_flutter/ui/auth/login.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/text_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {},
               child: const Text(
-                'ورود',
+                'ثبت نام',
               ),
             ),
             const SizedBox(
@@ -62,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const RegisterScreen();
+                      return const LoginScreen();
                     },
                   ),
                 );
@@ -71,14 +71,14 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'حساب کاربری ندارید؟',
+                    'حساب کاربری دارید؟',
                     style: TextStyle(),
                   ),
                   const SizedBox(
                     width: 8,
                   ),
                   Text(
-                    'ثبت نام',
+                    'ورود',
                     style: TextStyle(
                       color: themeData.colorScheme.primary,
                       decoration: TextDecoration.underline,
@@ -91,5 +91,6 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+    ;
   }
 }
