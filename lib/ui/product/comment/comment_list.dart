@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nike_ecommerce_flutter/data/common/http_client.dart';
+import 'package:nike_ecommerce_flutter/common/http_client.dart';
 import 'package:nike_ecommerce_flutter/data/repo/comment_repository.dart';
 import 'package:nike_ecommerce_flutter/data/src/comment_data_source.dart';
 import 'package:nike_ecommerce_flutter/ui/product/comment/bloc/comment_list_bloc.dart';

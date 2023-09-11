@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nike_ecommerce_flutter/theme.dart';
+import 'package:nike_ecommerce_flutter/ui/auth/login.dart';
 import 'package:nike_ecommerce_flutter/ui/main.dart';
+import 'package:nike_ecommerce_flutter/ui/theme/theme_controller.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,28 +12,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const defaultTextStyle = TextStyle(
-      fontFamily: 'IRAN',
-      color: LightThemeColors.primaryTextColor,
-    );
     return MaterialApp(
-      theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          primary: LightThemeColors.primaryColor,
-          secondary: LightThemeColors.secondaryColor,
-          onSecondary: Colors.white,
-        ),
-        textTheme: TextTheme(
-          titleMedium: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
-          labelLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 18),
-          bodyMedium: defaultTextStyle,
-          titleLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.bold),
-          bodySmall: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
-        ),
-      ),
+      theme: ThemeController().getTheme(),
       home: const Directionality(
         textDirection: TextDirection.rtl,
-        child: MainScreen(),
+        child: LoginScreen(),
       ),
     );
   }

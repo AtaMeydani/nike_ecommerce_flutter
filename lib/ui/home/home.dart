@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
-import 'package:nike_ecommerce_flutter/data/common/http_client.dart';
+import 'package:nike_ecommerce_flutter/common/http_client.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/data/repo/banner_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/product_repository.dart';

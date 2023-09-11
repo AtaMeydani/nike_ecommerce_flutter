@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
-import 'package:nike_ecommerce_flutter/theme.dart';
 import 'package:nike_ecommerce_flutter/ui/product/comment/comment_list.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
@@ -32,7 +31,7 @@ class ProductDetailScreen extends StatelessWidget {
             SliverAppBar(
               expandedHeight: size.width * 0.6,
               flexibleSpace: ImageLoadingService(imageUrl: productEntity.image),
-              foregroundColor: LightThemeColors.primaryTextColor,
+              foregroundColor: themeData.colorScheme.onSurface,
               actions: [
                 IconButton(
                   onPressed: () {},
