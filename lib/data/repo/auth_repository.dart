@@ -8,6 +8,11 @@ abstract class IAuthRepository {
     required String username,
     required String password,
   });
+
+  Future<void> register({
+    required String username,
+    required String password,
+  });
 }
 
 class AuthRepository implements IAuthRepository {
@@ -20,4 +25,9 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<void> login({required String username, required String password}) =>
       remoteDataSource.login(username: username, password: password);
+
+  @override
+  Future<void> register({required String username, required String password}) async {
+    await remoteDataSource.register(username: username, password: password);
+  }
 }
