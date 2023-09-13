@@ -1,10 +1,14 @@
+import 'package:nike_ecommerce_flutter/data/cart_item.dart';
+
 class CartResponse {
-  final int count;
-  final int productId;
-  final int cartItemId;
+  final List<CartItemEntity> cartItems;
+  final int payablePrice;
+  final int totalPrice;
+  final int shippingCost;
 
   CartResponse.fromJson(Map<String, dynamic> json)
-      : count = json['count'],
-        productId = json['product_id'],
-        cartItemId = json['id'];
+      : cartItems = (json['cart_items'] as List).map((e) => CartItemEntity.fromJson(e)).toList(),
+        payablePrice = json['payable_price'],
+        totalPrice = json['total_price'],
+        shippingCost = json['shipping_cost'];
 }
