@@ -91,9 +91,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              widget.productEntity.title,
-                              style: themeData.textTheme.titleLarge,
+                            Expanded(
+                              child: Text(
+                                widget.productEntity.title,
+                                style: themeData.textTheme.titleLarge,
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,

@@ -16,20 +16,22 @@ class EmptyStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        image,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-          child: Text(
-            message,
-            style: themeData.textTheme.titleMedium,
-            textAlign: TextAlign.center,
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          image,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+            child: Text(
+              message,
+              style: themeData.textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        if (callToAction != null) callToAction!,
-      ],
+          if (callToAction != null) callToAction!,
+        ],
+      ),
     );
   }
 }

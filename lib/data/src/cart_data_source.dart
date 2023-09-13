@@ -21,7 +21,7 @@ class CartRemoteDataSource with HttpResponseValidator implements ICartDataSource
   @override
   Future<AddToCartResponse> add({required int productId}) async {
     final Map<String, dynamic> headers = {
-      'product_id': 'refresh_token',
+      'product_id': productId,
     };
     final response = await httpClient.post('cart/add', data: headers);
     validateResponse(response);
@@ -48,8 +48,10 @@ class CartRemoteDataSource with HttpResponseValidator implements ICartDataSource
   }
 
   @override
-  Future<void> remove({required int cartItemId}) {
-    // TODO: implement remove
-    throw UnimplementedError();
+  Future<void> remove({required int cartItemId}) async {
+    final Map<String, dynamic> headers = {
+      'cart_item_id': cartItemId,
+    };
+    await httpClient.post('cart/remove', data: headers);
   }
 }
