@@ -3,12 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
 import 'package:nike_ecommerce_flutter/data/cart_item.dart';
+import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
+import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  CartBloc? cartBloc;
+  @override
+  void initState() {
+    AuthRepository.authChangeNotifier.addListener(authChangeNotifierListener);
+    super.initState();
+  }
+
+  void authChangeNotifierListener() {
+    cartBloc?.add(CartAuthInfoChangedEvent(authInfo: AuthRepository.authChangeNotifier.value));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +39,11 @@ class CartScreen extends StatelessWidget {
       ),
       body: BlocProvider<CartBloc>(
         create: (context) {
-          return CartBloc(cartRepository: cartRepository)..add(CartStartedEvent());
+          CartBloc cartBloc = CartBloc(cartRepository: cartRepository)
+            ..add(CartStartedEvent(authInfo: AuthRepository.authChangeNotifier.value));
+
+          this.cartBloc = cartBloc;
+          return cartBloc;
         },
         child: BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
@@ -126,6 +148,26 @@ class CartScreen extends StatelessWidget {
                   );
                 },
               );
+            } else if (state is CartAuthRequiredState) {
+              return Center(
+                child: Column(
+                  children: [
+                    const Text('لطفا وارد حساب کاربری خود شوید'),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: const Text('ورود'),
+                    ),
+                  ],
+                ),
+              );
             } else {
               throw Exception('cart state is not valid');
             }
@@ -133,32 +175,12 @@ class CartScreen extends StatelessWidget {
         ),
       ),
     );
+  }
 
-    // body: ValueListenableBuilder<AuthInfo?>(
-    //   valueListenable: AuthRepository.authChangeNotifier,
-    //   builder: (BuildContext context, authInfo, Widget? child) {
-    //     bool isAuthenticated = authInfo?.accessToken != null;
-    //     return Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Text(isAuthenticated ? 'خوش آمدید' : 'لطفا وارد حساب کاربری خود شوید'),
-    //         if (!isAuthenticated)
-    //           ElevatedButton(
-    //             onPressed: () {
-    //               Navigator.of(context, rootNavigator: true).pushReplacement(
-    //                 MaterialPageRoute(
-    //                   builder: (context) {
-    //                     return LoginScreen();
-    //                   },
-    //                 ),
-    //               );
-    //             },
-    //             child: Text('ورود'),
-    //           )
-    //       ],
-    //     );
-    //   },
-    // ),
-    // );
+  @override
+  void dispose() {
+    cartBloc?.close();
+    AuthRepository.authChangeNotifier.removeListener(authChangeNotifierListener);
+    super.dispose();
   }
 }
