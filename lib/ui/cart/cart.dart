@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
 import 'package:nike_ecommerce_flutter/data/cart_item.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
+import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
 class CartScreen extends StatefulWidget {
@@ -149,23 +151,31 @@ class _CartScreenState extends State<CartScreen> {
                 },
               );
             } else if (state is CartAuthRequiredState) {
-              return Center(
-                child: Column(
-                  children: [
-                    const Text('لطفا وارد حساب کاربری خود شوید'),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return LoginScreen();
-                            },
-                          ),
-                        );
-                      },
-                      child: const Text('ورود'),
-                    ),
-                  ],
+              return EmptyStateWidget(
+                message: 'برای مشاهده سبد خرید ابتدا وارد حساب کاربری خود شوید',
+                callToAction: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoginScreen();
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text('ورود به حساب کاربری'),
+                ),
+                image: SvgPicture.asset(
+                  'assets/images/auth_required.svg',
+                  width: 120,
+                ),
+              );
+            } else if (state is CartEmptyState) {
+              return EmptyStateWidget(
+                message: 'سبد خرید شما خالی است',
+                image: SvgPicture.asset(
+                  'assets/images/empty_cart.svg',
+                  width: 120,
                 ),
               );
             } else {
