@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeController().getTheme(),
       home: Directionality(
         textDirection: TextDirection.rtl,
-        child: LoginScreen(),
+        child: MainScreen(),
       ),
     );
   }
