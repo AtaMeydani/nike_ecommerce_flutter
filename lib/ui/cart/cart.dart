@@ -13,6 +13,7 @@ import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/price_info.dart';
+import 'package:nike_ecommerce_flutter/ui/shipping/shipping.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -55,7 +56,21 @@ class _CartScreenState extends State<CartScreen> {
           width: size.width,
           margin: const EdgeInsets.symmetric(horizontal: 48),
           child: FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              final state = cartBloc!.state;
+
+              if (state is CartSuccessState) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ShippingScreen(
+                        cartResponse: state.cartResponse,
+                      );
+                    },
+                  ),
+                );
+              }
+            },
             label: const Text('پرداخت'),
           ),
         ),

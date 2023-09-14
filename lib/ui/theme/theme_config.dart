@@ -95,9 +95,9 @@ class _AppThemeConfig {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-      minimumSize: const MaterialStatePropertyAll(
-        Size.fromHeight(56),
-      ),
+      // minimumSize: const MaterialStatePropertyAll(
+      //   Size.fromHeight(56),
+      // ),
     ),
   );
 
