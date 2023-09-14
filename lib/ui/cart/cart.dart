@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -19,7 +22,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final RefreshController _refreshController = RefreshController();
+  StreamSubscription<CartState>? stateStreamSubscription;
   CartBloc? cartBloc;
+
   @override
   void initState() {
     AuthRepository.authChangeNotifier.addListener(authChangeNotifierListener);
@@ -41,6 +47,15 @@ class _CartScreenState extends State<CartScreen> {
         create: (context) {
           CartBloc cartBloc = CartBloc(cartRepository: cartRepository)
             ..add(CartStartedEvent(authInfo: AuthRepository.authChangeNotifier.value));
+          stateStreamSubscription = cartBloc.stream.listen((state) {
+            if (_refreshController.isRefresh) {
+              if (state is CartSuccessState) {
+                _refreshController.refreshCompleted();
+              } else if (state is CartErrorState) {
+                _refreshController.refreshFailed();
+              }
+            }
+          });
 
           this.cartBloc = cartBloc;
           return cartBloc;
@@ -56,18 +71,36 @@ class _CartScreenState extends State<CartScreen> {
                 child: Text(state.appException.message),
               );
             } else if (state is CartSuccessState) {
-              return ListView.builder(
-                physics: defaultScrollPhysics,
-                itemCount: state.cartResponse.cartItems.length,
-                itemBuilder: (context, index) {
-                  final CartItemEntity cartItemEntity = state.cartResponse.cartItems[index];
-                  return CartItem(
-                    cartItemEntity: cartItemEntity,
-                    onDeleteButtonClick: () {
-                      cartBloc?.add(CartDeleteButtonIsClickedEvent(cartItemId: cartItemEntity.id));
-                    },
-                  );
+              return SmartRefresher(
+                controller: _refreshController,
+                header: const ClassicHeader(
+                  completeText: 'با موفقیت انجام شد',
+                  refreshingText: 'در حال بروز رسانی',
+                  idleText: 'برای بروزرسانی پایین بکشید',
+                  releaseText: 'رها کنید',
+                  failedText: 'خطای نامشخص',
+                  spacing: 2,
+                  completeIcon: Icon(CupertinoIcons.checkmark_circle),
+                ),
+                onRefresh: () {
+                  cartBloc?.add(CartStartedEvent(
+                    authInfo: AuthRepository.authChangeNotifier.value,
+                    isRefreshing: true,
+                  ));
                 },
+                child: ListView.builder(
+                  physics: defaultScrollPhysics,
+                  itemCount: state.cartResponse.cartItems.length,
+                  itemBuilder: (context, index) {
+                    final CartItemEntity cartItemEntity = state.cartResponse.cartItems[index];
+                    return CartItem(
+                      cartItemEntity: cartItemEntity,
+                      onDeleteButtonClick: () {
+                        cartBloc?.add(CartDeleteButtonIsClickedEvent(cartItemId: cartItemEntity.id));
+                      },
+                    );
+                  },
+                ),
               );
             } else if (state is CartAuthRequiredState) {
               return EmptyStateWidget(
@@ -110,6 +143,7 @@ class _CartScreenState extends State<CartScreen> {
   void dispose() {
     cartBloc?.close();
     AuthRepository.authChangeNotifier.removeListener(authChangeNotifierListener);
+    stateStreamSubscription?.cancel();
     super.dispose();
   }
 }

@@ -9,8 +9,9 @@ sealed class CartEvent extends Equatable {
 
 class CartStartedEvent extends CartEvent {
   final AuthInfo? authInfo;
+  final bool isRefreshing;
 
-  const CartStartedEvent({required this.authInfo});
+  const CartStartedEvent({required this.authInfo, this.isRefreshing = false});
 }
 
 class CartDeleteButtonIsClickedEvent extends CartEvent {
