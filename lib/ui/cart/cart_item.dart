@@ -9,10 +9,14 @@ class CartItem extends StatelessWidget {
     super.key,
     required this.cartItemEntity,
     required this.onDeleteButtonClick,
+    required this.onIncreaseButtonClick,
+    required this.onDecreaseButtonClick,
   });
 
   final CartItemEntity cartItemEntity;
   final GestureTapCallback onDeleteButtonClick;
+  final GestureTapCallback onIncreaseButtonClick;
+  final GestureTapCallback onDecreaseButtonClick;
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +67,17 @@ class CartItem extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: onIncreaseButtonClick,
                           icon: const Icon(CupertinoIcons.plus_rectangle),
                         ),
-                        Text(
-                          cartItemEntity.count.toString(),
-                          style: themeData.textTheme.titleLarge,
-                        ),
+                        cartItemEntity.changeCountLoading
+                            ? const CupertinoActivityIndicator()
+                            : Text(
+                                cartItemEntity.count.toString(),
+                                style: themeData.textTheme.titleLarge,
+                              ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: onDecreaseButtonClick,
                           icon: const Icon(CupertinoIcons.minus_rectangle),
                         ),
                       ],

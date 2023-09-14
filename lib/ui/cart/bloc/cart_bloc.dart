@@ -54,6 +54,58 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             await loadCartItems(emit: emit);
           }
         }
+      } else if (event is IncreaseCountButtonIsClickedEvent) {
+        try {
+          if (state is CartSuccessState) {
+            final successState = state as CartSuccessState;
+            final int cartItemEntityIndex =
+                successState.cartResponse.cartItems.indexWhere((element) => element.id == event.cartItemId);
+            successState.cartResponse.cartItems[cartItemEntityIndex].changeCountLoading = true;
+            emit(CartSuccessState(cartResponse: successState.cartResponse));
+
+            await Future.delayed(Duration(seconds: 2));
+            final newCount = successState.cartResponse.cartItems[cartItemEntityIndex].count + 1;
+
+            await cartRepository.changeCount(
+              cartItemId: event.cartItemId,
+              count: newCount,
+            );
+
+            successState.cartResponse.cartItems.firstWhere((element) => element.id == event.cartItemId)
+              ..count = newCount
+              ..changeCountLoading = false;
+
+            emit(calculatePriceInfo(successState.cartResponse));
+          }
+        } catch (e) {
+          emit(CartErrorState(appException: e is AppException ? e : AppException()));
+        }
+      } else if (event is DecreaseCountButtonIsClickedEvent) {
+        try {
+          if (state is CartSuccessState) {
+            final successState = state as CartSuccessState;
+            final int cartItemEntityIndex =
+                successState.cartResponse.cartItems.indexWhere((element) => element.id == event.cartItemId);
+            successState.cartResponse.cartItems[cartItemEntityIndex].changeCountLoading = true;
+            emit(CartSuccessState(cartResponse: successState.cartResponse));
+
+            await Future.delayed(Duration(seconds: 2));
+            final newCount = successState.cartResponse.cartItems[cartItemEntityIndex].count - 1;
+
+            await cartRepository.changeCount(
+              cartItemId: event.cartItemId,
+              count: newCount,
+            );
+
+            successState.cartResponse.cartItems.firstWhere((element) => element.id == event.cartItemId)
+              ..count = newCount
+              ..changeCountLoading = false;
+
+            emit(calculatePriceInfo(successState.cartResponse));
+          }
+        } catch (e) {
+          emit(CartErrorState(appException: e is AppException ? e : AppException()));
+        }
       }
     });
   }

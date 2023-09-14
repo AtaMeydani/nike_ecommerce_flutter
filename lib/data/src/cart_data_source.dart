@@ -29,9 +29,14 @@ class CartRemoteDataSource with HttpResponseValidator implements ICartDataSource
   }
 
   @override
-  Future<AddToCartResponse> changeCount({required int count, required int cartItemId}) {
-    // TODO: implement changeCount
-    throw UnimplementedError();
+  Future<AddToCartResponse> changeCount({required int count, required int cartItemId}) async {
+    final Map<String, dynamic> headers = {
+      'cart_item_id': cartItemId,
+      'count': count,
+    };
+    final response = await httpClient.post('cart/changeCount', data: headers);
+    validateResponse(response);
+    return AddToCartResponse.fromJson(response.data);
   }
 
   @override

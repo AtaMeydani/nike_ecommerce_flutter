@@ -101,6 +101,14 @@ class _CartScreenState extends State<CartScreen> {
                         onDeleteButtonClick: () {
                           cartBloc?.add(CartDeleteButtonIsClickedEvent(cartItemId: cartItemEntity.id));
                         },
+                        onDecreaseButtonClick: () {
+                          if (cartItemEntity.count > 0) {
+                            cartBloc?.add(DecreaseCountButtonIsClickedEvent(cartItemId: cartItemEntity.id));
+                          }
+                        },
+                        onIncreaseButtonClick: () {
+                          cartBloc?.add(IncreaseCountButtonIsClickedEvent(cartItemId: cartItemEntity.id));
+                        },
                       );
                     } else {
                       CartResponse cartResponse = state.cartResponse;
