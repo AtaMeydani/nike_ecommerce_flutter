@@ -32,6 +32,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           await Future.delayed(Duration(seconds: 2));
 
           await cartRepository.remove(cartItemId: event.cartItemId);
+          await cartRepository.count();
 
           if (state is CartSuccessState) {
             final successState = state as CartSuccessState;
@@ -70,6 +71,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
               cartItemId: event.cartItemId,
               count: newCount,
             );
+            await cartRepository.count();
 
             successState.cartResponse.cartItems.firstWhere((element) => element.id == event.cartItemId)
               ..count = newCount
@@ -96,6 +98,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
               cartItemId: event.cartItemId,
               count: newCount,
             );
+            await cartRepository.count();
 
             successState.cartResponse.cartItems.firstWhere((element) => element.id == event.cartItemId)
               ..count = newCount

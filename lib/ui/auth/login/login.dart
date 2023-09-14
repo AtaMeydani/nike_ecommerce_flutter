@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
+import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/login/bloc/login_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/register/register.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/text_field.dart';
@@ -17,7 +18,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider<LoginBloc>(
         create: (BuildContext context) {
-          final bloc = LoginBloc(authRepository: authRepository);
+          final bloc = LoginBloc(authRepository: authRepository, cartRepository: cartRepository);
           bloc.add(LoginStartedEvent());
           bloc.stream.forEach((state) {
             if (state is LoginSuccessState) {

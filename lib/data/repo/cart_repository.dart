@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/common/http_client.dart';
 import 'package:nike_ecommerce_flutter/data/add_to_cart_response.dart';
 import 'package:nike_ecommerce_flutter/data/cart_response.dart';
@@ -17,6 +18,7 @@ abstract class ICartRepository {
 
 class CartRepository implements ICartRepository {
   final ICartDataSource remoteDataSource;
+  static ValueNotifier<int> cartItemCountNotifier = ValueNotifier(0);
 
   CartRepository({required this.remoteDataSource});
 
@@ -31,8 +33,10 @@ class CartRepository implements ICartRepository {
   }
 
   @override
-  Future<int> count() {
-    return remoteDataSource.count();
+  Future<int> count() async {
+    final count = await remoteDataSource.count();
+    cartItemCountNotifier.value = count;
+    return count;
   }
 
   @override

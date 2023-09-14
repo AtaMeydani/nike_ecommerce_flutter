@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
+import 'package:nike_ecommerce_flutter/ui/widgets/badge.dart';
 
 const int homeIndex = 0;
 const int cartIndex = 1;
@@ -45,6 +47,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void initState() {
+    cartRepository.count();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -58,16 +66,31 @@ class _MainScreenState extends State<MainScreen> {
               selectedScreenIndex = selectedIndex;
             });
           },
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.home,
               ),
               label: 'خانه',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                CupertinoIcons.cart,
+              icon: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(
+                    CupertinoIcons.cart,
+                  ),
+                  Positioned(
+                    right: -10,
+                    top: -10,
+                    child: ValueListenableBuilder<int>(
+                      valueListenable: CartRepository.cartItemCountNotifier,
+                      builder: (context, value, child) {
+                        return BadgeWidget(value: value);
+                      },
+                    ),
+                  ),
+                ],
               ),
               label: 'سبد خرید',
             ),

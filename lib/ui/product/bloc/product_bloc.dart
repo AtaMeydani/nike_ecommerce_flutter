@@ -16,6 +16,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(ProductAddToCartButtonLoadingState());
         try {
           final AddToCartResponse cartResponse = await cartRepository.add(productId: event.productId);
+          await cartRepository.count();
           emit(ProductAddToCartSuccessState());
         } catch (e) {
           emit(ProductAddToCartErrorState(appException: e is AppException ? e : AppException()));
