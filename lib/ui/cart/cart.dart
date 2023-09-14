@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
 import 'package:nike_ecommerce_flutter/data/cart_item.dart';
+import 'package:nike_ecommerce_flutter/data/cart_response.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
+import 'package:nike_ecommerce_flutter/ui/cart/price_info.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -90,15 +92,20 @@ class _CartScreenState extends State<CartScreen> {
                 },
                 child: ListView.builder(
                   physics: defaultScrollPhysics,
-                  itemCount: state.cartResponse.cartItems.length,
+                  itemCount: state.cartResponse.cartItems.length + 1,
                   itemBuilder: (context, index) {
-                    final CartItemEntity cartItemEntity = state.cartResponse.cartItems[index];
-                    return CartItem(
-                      cartItemEntity: cartItemEntity,
-                      onDeleteButtonClick: () {
-                        cartBloc?.add(CartDeleteButtonIsClickedEvent(cartItemId: cartItemEntity.id));
-                      },
-                    );
+                    if (index < state.cartResponse.cartItems.length) {
+                      final CartItemEntity cartItemEntity = state.cartResponse.cartItems[index];
+                      return CartItem(
+                        cartItemEntity: cartItemEntity,
+                        onDeleteButtonClick: () {
+                          cartBloc?.add(CartDeleteButtonIsClickedEvent(cartItemId: cartItemEntity.id));
+                        },
+                      );
+                    } else {
+                      CartResponse cartResponse = state.cartResponse;
+                      return PriceInfo(cartResponse: cartResponse);
+                    }
                   },
                 ),
               );

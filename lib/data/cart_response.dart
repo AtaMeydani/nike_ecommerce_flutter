@@ -6,6 +6,13 @@ class CartResponse {
   final int totalPrice;
   final int shippingCost;
 
+  CartResponse({
+    required this.cartItems,
+    required this.payablePrice,
+    required this.totalPrice,
+    required this.shippingCost,
+  });
+
   CartResponse.fromJson(Map<String, dynamic> json)
       : cartItems = (json['cart_items'] as List).map((e) => CartItemEntity.fromJson(e)).toList(),
         payablePrice = json['payable_price'],
