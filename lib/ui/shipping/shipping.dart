@@ -47,7 +47,9 @@ class _ShippingScreenState extends State<ShippingScreen> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return const PaymentReceiptScreen();
+                      return PaymentReceiptScreen(
+                        orderId: state.orderResult.orderId,
+                      );
                     },
                   ),
                 );

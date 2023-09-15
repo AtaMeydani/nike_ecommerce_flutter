@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:nike_ecommerce_flutter/data/common/http_response_validator.dart';
 import 'package:nike_ecommerce_flutter/data/order.dart';
+import 'package:nike_ecommerce_flutter/data/payment_receipt.dart';
 
 abstract class IOrderDataSource {
   Future<OrderResult> order({required OrderParams orderParams});
+  Future<PaymentReceipt> getPaymentReceipt({required int orderId});
 }
 
 class OrderRemoteDataSource with HttpResponseValidator implements IOrderDataSource {
@@ -25,5 +27,12 @@ class OrderRemoteDataSource with HttpResponseValidator implements IOrderDataSour
     final response = await httpClient.post('order/submit', data: body);
     validateResponse(response);
     return OrderResult.fromJson(response.data);
+  }
+
+  @override
+  Future<PaymentReceipt> getPaymentReceipt({required int orderId}) async {
+    final response = await httpClient.get('order/checkout?order_id=$orderId');
+    validateResponse(response);
+    return PaymentReceipt.fromJson(response.data);
   }
 }
