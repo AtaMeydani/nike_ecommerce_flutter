@@ -12,3 +12,17 @@ extension PriceLabel on int {
     return numberFormat.format(this);
   }
 }
+
+extension SizedBoxWidget on double {
+  Widget get height {
+    return SizedBox(
+      height: this,
+    );
+  }
+
+  Widget get width {
+    return SizedBox(
+      width: this,
+    );
+  }
+}
