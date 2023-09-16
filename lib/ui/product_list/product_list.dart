@@ -20,6 +20,7 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   late final ProductListBloc productListBloc;
+  ViewType _viewType = ViewType.grid;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +130,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            _viewType = _viewType == ViewType.grid ? ViewType.list : ViewType.grid;
+                          });
+                        },
                         icon: const Icon(
                           CupertinoIcons.square_grid_2x2,
                         ),
@@ -140,7 +145,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Expanded(
                   child: GridView.builder(
                     itemCount: state.products.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: _viewType == ViewType.grid ? 2 : 1,
+                    ),
                     itemBuilder: (context, index) {
                       return ProductItem(
                         productEntity: state.products[index],
@@ -172,4 +179,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
     productListBloc.close();
     super.dispose();
   }
+}
+
+enum ViewType {
+  grid,
+  list,
 }
