@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
+import 'package:nike_ecommerce_flutter/ui/profile/profile.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/badge.dart';
 
 const int homeIndex = 0;
@@ -94,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               label: 'سبد خرید',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.person,
               ),
@@ -107,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             _navigator(key: _homeKey, index: homeIndex, child: const HomeScreen()),
             _navigator(key: _cartKey, index: cartIndex, child: const CartScreen()),
-            _navigator(key: _profileKey, index: profileIndex, child: const HomeScreen()),
+            _navigator(key: _profileKey, index: profileIndex, child: const ProfileScreen()),
           ],
         ),
       ),

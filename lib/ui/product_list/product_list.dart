@@ -27,12 +27,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     final ThemeData themeData = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('کفش های ورزشی'),
-        backgroundColor: themeData.colorScheme.surface,
-        foregroundColor: themeData.colorScheme.onSurface,
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('کفش های ورزشی')),
       body: BlocProvider<ProductListBloc>(
         create: (context) {
           productListBloc = ProductListBloc(productRepository: productRepository)

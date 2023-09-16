@@ -95,9 +95,6 @@ class _AppThemeConfig {
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-      // minimumSize: const MaterialStatePropertyAll(
-      //   Size.fromHeight(56),
-      // ),
     ),
   );
 
@@ -105,6 +102,18 @@ class _AppThemeConfig {
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
     ),
+  );
+
+  static final lightAppBarTheme = AppBarTheme(
+    backgroundColor: lightColorScheme.surface,
+    foregroundColor: lightColorScheme.onSurface,
+    elevation: 0,
+  );
+
+  static final darkAppBarTheme = AppBarTheme(
+    backgroundColor: darkColorScheme.surface,
+    foregroundColor: darkColorScheme.onSurface,
+    elevation: 0,
   );
 
   static ThemeData getThemeData(AppTheme appTheme) {
@@ -115,6 +124,7 @@ class _AppThemeConfig {
           textTheme: textTheme,
           elevatedButtonTheme: elevatedButtonThemeData,
           inputDecorationTheme: inputDecorationTheme,
+          appBarTheme: lightAppBarTheme,
         );
       case AppTheme.dark:
         return ThemeData(
@@ -122,6 +132,7 @@ class _AppThemeConfig {
           textTheme: textTheme,
           elevatedButtonTheme: elevatedButtonThemeData,
           inputDecorationTheme: inputDecorationTheme,
+          appBarTheme: darkAppBarTheme,
         );
       default:
         return ThemeData(
@@ -129,6 +140,7 @@ class _AppThemeConfig {
           textTheme: textTheme,
           elevatedButtonTheme: elevatedButtonThemeData,
           inputDecorationTheme: inputDecorationTheme,
+          appBarTheme: darkAppBarTheme,
         );
     }
   }
