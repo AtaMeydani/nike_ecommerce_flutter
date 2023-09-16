@@ -9,6 +9,7 @@ import 'package:nike_ecommerce_flutter/data/src/banner_data_source.dart';
 import 'package:nike_ecommerce_flutter/data/src/product_data_source.dart';
 import 'package:nike_ecommerce_flutter/ui/home/bloc/home_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/product/product.dart';
+import 'package:nike_ecommerce_flutter/ui/product_list/product_list.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/error.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 
@@ -47,14 +48,30 @@ class HomeScreen extends StatelessWidget {
                     ),
                     _HorizontalProductListTitle(
                       title: 'جدیدترین',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const ProductListScreen(sort: ProductSort.latest);
+                            },
+                          ),
+                        );
+                      },
                     ),
                     _HorizontalProductList(
                       products: state.latestProducts,
                     ),
                     _HorizontalProductListTitle(
                       title: 'پربازدیدترین',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const ProductListScreen(sort: ProductSort.popular);
+                            },
+                          ),
+                        );
+                      },
                     ),
                     _HorizontalProductList(
                       products: state.popularProducts,
