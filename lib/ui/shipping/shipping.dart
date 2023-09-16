@@ -8,6 +8,7 @@ import 'package:nike_ecommerce_flutter/data/cart_response.dart';
 import 'package:nike_ecommerce_flutter/data/order.dart';
 import 'package:nike_ecommerce_flutter/data/repo/order_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/price_info.dart';
+import 'package:nike_ecommerce_flutter/ui/payment_webview.dart';
 import 'package:nike_ecommerce_flutter/ui/receipt/payment_receipt.dart';
 import 'package:nike_ecommerce_flutter/ui/shipping/bloc/shipping_bloc.dart';
 
@@ -23,11 +24,11 @@ class ShippingScreen extends StatefulWidget {
 }
 
 class _ShippingScreenState extends State<ShippingScreen> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _mobileController = TextEditingController();
-  final TextEditingController _postalCodeController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController(text: 'random name');
+  final TextEditingController _lastNameController = TextEditingController(text: 'random name');
+  final TextEditingController _mobileController = TextEditingController(text: '01234567890');
+  final TextEditingController _postalCodeController = TextEditingController(text: '123456');
+  final TextEditingController _addressController = TextEditingController(text: 'NewYork city random address 33');
   StreamSubscription<ShippingState>? _streamSubscription;
 
   @override
@@ -44,15 +45,27 @@ class _ShippingScreenState extends State<ShippingScreen> {
               if (state is ShippingErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.appException.message)));
               } else if (state is ShippingSuccessState) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return PaymentReceiptScreen(
-                        orderId: state.orderResult.orderId,
-                      );
-                    },
-                  ),
-                );
+                final String bankGatewayUrl = state.orderResult.bankGatewayUrl;
+                if (bankGatewayUrl.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return PaymentGatewayScreen(bankGatewayUrl: bankGatewayUrl);
+                      },
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return PaymentReceiptScreen(
+                          orderId: state.orderResult.orderId,
+                        );
+                      },
+                    ),
+                  );
+                }
               }
             },
           );
@@ -126,7 +139,19 @@ class _ShippingScreenState extends State<ShippingScreen> {
                         width: 16,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          BlocProvider.of<ShippingBloc>(context).add(
+                            ShippingCreateOrderEvent(
+                              orderParams: OrderParams(
+                                  firstName: _firstNameController.text,
+                                  lastName: _lastNameController.text,
+                                  mobile: _mobileController.text,
+                                  postalCode: _postalCodeController.text,
+                                  address: _addressController.text,
+                                  paymentMethod: PaymentMethod.online),
+                            ),
+                          );
+                        },
                         child: const Text('پرداخت اینترنتی'),
                       ),
                     ],
