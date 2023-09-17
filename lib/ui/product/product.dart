@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:nike_ecommerce_flutter/common/constants.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
 import 'package:nike_ecommerce_flutter/data/favorite_manager.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';

@@ -1,3 +1,5 @@
+import 'package:nike_ecommerce_flutter/data/product.dart';
+
 class OrderResult {
   final int orderId;
   final String bankGatewayUrl;
@@ -28,4 +30,16 @@ enum PaymentMethod {
   online,
   // ignore: constant_identifier_names
   cash_on_delivery,
+}
+
+class OrderEntity {
+  final int id;
+  final int payablePrice;
+  final List<ProductEntity> products;
+
+  OrderEntity.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        payablePrice = json['payable'],
+        products =
+            (json['order_items'] as List).map((orderItem) => ProductEntity.fromJson(orderItem['product'])).toList();
 }

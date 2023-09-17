@@ -6,6 +6,7 @@ import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
 import 'package:nike_ecommerce_flutter/ui/favorites/favorite_list.dart';
+import 'package:nike_ecommerce_flutter/ui/order/order_history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -73,7 +74,15 @@ class ProfileScreen extends StatelessWidget {
                 _ProfileItem(
                   title: 'سوابق سفارش',
                   iconData: CupertinoIcons.cart,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const OrderHistoryScreen();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 const Divider(
                   height: 1,

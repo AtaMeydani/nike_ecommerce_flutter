@@ -8,6 +8,7 @@ final orderRepository = OrderRepository(remoteDataSource: OrderRemoteDataSource(
 abstract class IOrderRepository {
   Future<OrderResult> order({required OrderParams orderParams});
   Future<PaymentReceipt> getPaymentReceipt({required int orderId});
+  Future<List<OrderEntity>> getOrders();
 }
 
 class OrderRepository implements IOrderRepository {
@@ -23,5 +24,10 @@ class OrderRepository implements IOrderRepository {
   @override
   Future<PaymentReceipt> getPaymentReceipt({required int orderId}) {
     return remoteDataSource.getPaymentReceipt(orderId: orderId);
+  }
+
+  @override
+  Future<List<OrderEntity>> getOrders() {
+    return remoteDataSource.getOrders();
   }
 }
