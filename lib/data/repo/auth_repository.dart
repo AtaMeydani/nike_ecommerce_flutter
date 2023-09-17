@@ -55,11 +55,13 @@ class AuthRepository implements IAuthRepository {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final String? accessToken = sharedPreferences.getString('accessToken');
     final String? refreshToken = sharedPreferences.getString('refreshToken');
+    final String? email = sharedPreferences.getString('email');
 
-    if (accessToken != null && refreshToken != null) {
+    if (accessToken != null && refreshToken != null && email != null) {
       authChangeNotifier.value = AuthInfo(
         accessToken: accessToken,
         refreshToken: refreshToken,
+        email: email,
       );
     }
   }
@@ -75,6 +77,7 @@ class AuthRepository implements IAuthRepository {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString('accessToken', authInfo.accessToken);
     sharedPreferences.setString('refreshToken', authInfo.refreshToken);
+    sharedPreferences.setString('email', authInfo.email);
     loadAuthInfo();
   }
 }
