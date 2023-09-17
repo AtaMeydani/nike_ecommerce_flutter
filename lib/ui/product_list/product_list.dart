@@ -146,7 +146,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     itemBuilder: (context, index) {
                       return ProductItem(
                         productEntity: state.products[index],
-                        borderRadius: BorderRadius.zero,
                       );
                     },
                   ),

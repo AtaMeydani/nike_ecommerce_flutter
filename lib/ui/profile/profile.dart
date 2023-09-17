@@ -5,6 +5,7 @@ import 'package:nike_ecommerce_flutter/data/auth.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/login/login.dart';
+import 'package:nike_ecommerce_flutter/ui/favorites/favorite_list.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -56,7 +57,15 @@ class ProfileScreen extends StatelessWidget {
                 _ProfileItem(
                   title: 'لیست علاقه مندی ها',
                   iconData: CupertinoIcons.heart,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const FavoriteListScreen();
+                        },
+                      ),
+                    );
+                  },
                 ),
                 const Divider(
                   height: 1,
