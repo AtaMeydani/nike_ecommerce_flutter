@@ -30,3 +30,12 @@ final class ProductListErrorState extends ProductListState {
   @override
   List<Object> get props => [appException];
 }
+
+final class ProductListEmptyState extends ProductListState {
+  final String message;
+
+  const ProductListEmptyState({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

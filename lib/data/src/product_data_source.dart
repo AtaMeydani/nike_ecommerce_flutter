@@ -21,7 +21,7 @@ class ProductRemoteDataSource with HttpResponseValidator implements IProductData
 
   @override
   Future<List<ProductEntity>> search({required String searchTerm}) async {
-    final response = await httpClient.get('product/list?search?q=$searchTerm');
+    final response = await httpClient.get('product/search?q=$searchTerm');
     validateResponse(response);
     return (response.data as List).map((json) => ProductEntity.fromJson(json)).toList();
   }

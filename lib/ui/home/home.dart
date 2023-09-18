@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike_ecommerce_flutter/common/utils.dart';
@@ -16,11 +17,20 @@ import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 final productRepository = ProductRepository(remoteDataSource: ProductRemoteDataSource(httpClient: httpClient));
 final bannerRepository = BannerRepository(remoteDataSource: BannerRemoteDataSource(httpClient: httpClient));
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+
     return BlocProvider(
       create: (context) {
         return HomeBloc(bannerRepository: bannerRepository, productRepository: productRepository)
@@ -28,7 +38,6 @@ class HomeScreen extends StatelessWidget {
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppBar(),
           body: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
               if (state is HomeSuccessState) {
@@ -41,6 +50,36 @@ class HomeScreen extends StatelessWidget {
                       child: Image.asset(
                         'assets/images/nike_logo.png',
                         fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                    Container(
+                      height: 56,
+                      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+                      child: TextField(
+                        controller: _searchController,
+                        textInputAction: TextInputAction.search,
+                        decoration: InputDecoration(
+                          label: const Text('جستجو'),
+                          isCollapsed: false,
+                          prefixIcon: IconButton(
+                            onPressed: () {
+                              _search(context);
+                            },
+                            icon: const Icon(CupertinoIcons.search),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(28),
+                            borderSide: BorderSide(width: 2, color: themeData.colorScheme.primary),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                        ),
+                        style: themeData.textTheme.bodyMedium,
+                        onSubmitted: (value) {
+                          _search(context);
+                        },
                       ),
                     ),
                     BannerSlider(
@@ -95,6 +134,22 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _search(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return ProductListScreen.search(searchTerm: _searchController.text);
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }
 

@@ -15,8 +15,14 @@ class ProductListBloc extends Bloc<ProductListEvent, ProductListState> {
       if (event is ProductListStartedEvent) {
         emit(ProductListLoadingState());
         try {
-          final List<ProductEntity> products = await productRepository.getAll(sort: event.sort);
-          emit(ProductListSuccessState(products: products, sort: event.sort));
+          final List<ProductEntity> products = event.searchTerm.isEmpty
+              ? await productRepository.getAll(sort: event.sort)
+              : await productRepository.search(searchTerm: event.searchTerm);
+          if (products.isNotEmpty) {
+            emit(ProductListSuccessState(products: products, sort: event.sort));
+          } else {
+            emit(const ProductListEmptyState(message: 'محصولی یافت نشد'));
+          }
         } catch (e) {
           emit(ProductListErrorState(appException: e is AppException ? e : AppException()));
         }

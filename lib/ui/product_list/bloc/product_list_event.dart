@@ -9,8 +9,9 @@ sealed class ProductListEvent extends Equatable {
 
 class ProductListStartedEvent extends ProductListEvent {
   final int sort;
+  final String searchTerm;
 
-  const ProductListStartedEvent({required this.sort});
+  const ProductListStartedEvent({required this.sort, required this.searchTerm});
 
   @override
   List<Object> get props => [sort];
