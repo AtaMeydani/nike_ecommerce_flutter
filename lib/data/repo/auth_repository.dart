@@ -80,4 +80,8 @@ class AuthRepository implements IAuthRepository {
     sharedPreferences.setString('email', authInfo.email);
     loadAuthInfo();
   }
+
+  static bool isUserLoggedIn() {
+    return authChangeNotifier.value?.accessToken != null && authChangeNotifier.value!.accessToken.isNotEmpty;
+  }
 }

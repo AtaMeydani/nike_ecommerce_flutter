@@ -9,6 +9,7 @@ import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/product/bloc/product_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/product/comment/comment_list.dart';
+import 'package:nike_ecommerce_flutter/ui/product/comment/add/add_comment_dialog.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -143,7 +144,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               style: themeData.textTheme.titleMedium,
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                  ),
+                                  useRootNavigator: true,
+                                  builder: (context) {
+                                    return AddCommentDialog(
+                                      productId: widget.productEntity.id,
+                                      scaffoldMessengerState: _scaffoldMessengerKey.currentState,
+                                    );
+                                  },
+                                );
+                              },
                               child: const Text('ثبت نظر'),
                             ),
                           ],
